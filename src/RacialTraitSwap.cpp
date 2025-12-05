@@ -38,6 +38,9 @@
 #include "ScriptedCreature.h"
 #include "ScriptedGossip.h"
 #include "WorldSession.h"
+#include <sstream>
+
+static constexpr int32 GOLD = 10000; // copper per gold
 
 #define LOCALE_RACESWAP_0 "Racial Trait Swap"
 #define LOCALE_RACESWAP_1 "인종 특성 교환"
@@ -806,7 +809,6 @@ public:
                 player->learnSpell(28877, false); // Arcane Affinity
                 player->learnSpell(822, false); // Magic Resistance
                 // Arcane Torrent
-                // NOTE: Druid will get 2 versions of Arcane Torrent since they can use both Energy and Mana. If the custom version of Arcane Torrent is added, the druid will also need to pick that up.
                 switch (player->getClass())
                 {
                     case CLASS_DEATH_KNIGHT:
@@ -826,7 +828,6 @@ public:
                         break;
                     case CLASS_DRUID:
                         player->learnSpell(28730, false); // Arcane Torrent (Mana)
-                        player->learnSpell(25046, false); // Arcane Torrent (Energy)
                         break;
                 }
                 break;
