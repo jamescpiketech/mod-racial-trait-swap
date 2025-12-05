@@ -1047,7 +1047,7 @@ public:
                 break;
 
             case 8: // Tauren Selection
-                AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "Commit to the Endurance of the Taurens", GOSSIP_SENDER_MAIN, 81);
+                AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "Commit to the Endurance of the Tauren", GOSSIP_SENDER_MAIN, 81);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedBack, GOSSIP_SENDER_MAIN, 11);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedExit, GOSSIP_SENDER_MAIN, 1111);
                 SendGossipMenuFor(player, 90000048, creature->GetGUID());
@@ -1067,7 +1067,7 @@ public:
                 break;
 
             case 9: // Troll Selection
-                AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "Commit to the Vodoo of the Trolls", GOSSIP_SENDER_MAIN, 91);
+                AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "Commit to the Voodoo of the Trolls", GOSSIP_SENDER_MAIN, 91);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedBack, GOSSIP_SENDER_MAIN, 11);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedExit, GOSSIP_SENDER_MAIN, 1111);
                 SendGossipMenuFor(player, 90000049, creature->GetGUID());
