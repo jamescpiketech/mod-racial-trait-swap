@@ -445,7 +445,7 @@ public:
                 localizedEntry = LOCALE_RACESWAP_0;
         }
         AddGossipItemFor(player, GOSSIP_ICON_TRAINER, localizedEntry, GOSSIP_SENDER_MAIN, 11);
-        SendGossipMenuFor(player, 98888, creature->GetGUID());
+        SendGossipMenuFor(player, 9000004, creature->GetGUID());
         return true;
     }
 
@@ -784,7 +784,7 @@ public:
                     AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, messageTR.str(), GOSSIP_SENDER_MAIN, 9); // Troll Selection
                     AddGossipItemFor(player, GOSSIP_ICON_MONEY_BAG, messageUN.str(), GOSSIP_SENDER_MAIN, 10); // Undead
                     AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedExit, GOSSIP_SENDER_MAIN, 1111);
-                    SendGossipMenuFor(player, 98888, creature->GetGUID());
+                    SendGossipMenuFor(player, 9000004, creature->GetGUID());
                 }
                 break;
 
@@ -796,7 +796,7 @@ public:
                 AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "Commit to the Pride of the Blood Elves", GOSSIP_SENDER_MAIN, 112);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedBack, GOSSIP_SENDER_MAIN, 11);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedExit, GOSSIP_SENDER_MAIN, 1111);
-                SendGossipMenuFor(player, 988881, creature->GetGUID());
+                SendGossipMenuFor(player, 90000041, creature->GetGUID());
                 break;
 
             case 112: // Blood Elf
@@ -836,7 +836,7 @@ public:
                 AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "Commit to the Light of the Draenei", GOSSIP_SENDER_MAIN, 212);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedBack, GOSSIP_SENDER_MAIN, 11);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedExit, GOSSIP_SENDER_MAIN, 1111);
-                SendGossipMenuFor(player, 988882, creature->GetGUID());
+                SendGossipMenuFor(player, 90000042, creature->GetGUID());
                 break;
 
             case 212: // Draenei
@@ -908,7 +908,7 @@ public:
                 AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "Commit to the Iron Will of the Dwarves", GOSSIP_SENDER_MAIN, 31);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedBack, GOSSIP_SENDER_MAIN, 11);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedExit, GOSSIP_SENDER_MAIN, 1111);
-                SendGossipMenuFor(player, 988883, creature->GetGUID());
+                SendGossipMenuFor(player, 90000043, creature->GetGUID());
                 break;
 
             case 31: // Dwarves
@@ -929,7 +929,7 @@ public:
                 AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "Commit to the Technological Might of the Gnomes", GOSSIP_SENDER_MAIN, 41);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedBack, GOSSIP_SENDER_MAIN, 11);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedExit, GOSSIP_SENDER_MAIN, 1111);
-                SendGossipMenuFor(player, 988884, creature->GetGUID());
+                SendGossipMenuFor(player, 90000044, creature->GetGUID());
                 break;
 
             case 41: // Gnome
@@ -949,7 +949,7 @@ public:
                 AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "Commit to the Human Spirit", GOSSIP_SENDER_MAIN, 51);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedBack, GOSSIP_SENDER_MAIN, 11);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedExit, GOSSIP_SENDER_MAIN, 1111);
-                SendGossipMenuFor(player, 988885, creature->GetGUID());
+                SendGossipMenuFor(player, 90000045, creature->GetGUID());
                 break;
 
             case 51: // Human
@@ -971,7 +971,7 @@ public:
                 AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "Commit to the Ancient Night Elves", GOSSIP_SENDER_MAIN, 61);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedBack, GOSSIP_SENDER_MAIN, 11);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedExit, GOSSIP_SENDER_MAIN, 1111);
-                SendGossipMenuFor(player, 988886, creature->GetGUID());
+                SendGossipMenuFor(player, 90000046, creature->GetGUID());
                 break;
 
             case 61: // Night Elf
@@ -992,7 +992,7 @@ public:
                 AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "Commit to the Strength of the Orc", GOSSIP_SENDER_MAIN, 71);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedBack, GOSSIP_SENDER_MAIN, 11);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedExit, GOSSIP_SENDER_MAIN, 1111);
-                SendGossipMenuFor(player, 988887, creature->GetGUID());
+                SendGossipMenuFor(player, 90000047, creature->GetGUID());
                 break;
 
             case 71: // Orc
@@ -1050,7 +1050,7 @@ public:
                 AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "Commit to the Endurance of the Taurens", GOSSIP_SENDER_MAIN, 81);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedBack, GOSSIP_SENDER_MAIN, 11);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedExit, GOSSIP_SENDER_MAIN, 1111);
-                SendGossipMenuFor(player, 988888, creature->GetGUID());
+                SendGossipMenuFor(player, 90000048, creature->GetGUID());
                 break;
 
             case 81: // Tauren
@@ -1070,7 +1070,7 @@ public:
                 AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "Commit to the Vodoo of the Trolls", GOSSIP_SENDER_MAIN, 91);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedBack, GOSSIP_SENDER_MAIN, 11);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedExit, GOSSIP_SENDER_MAIN, 1111);
-                SendGossipMenuFor(player, 988889, creature->GetGUID());
+                SendGossipMenuFor(player, 90000049, creature->GetGUID());
                 break;
 
             case 91: // Troll
@@ -1092,7 +1092,7 @@ public:
                 AddGossipItemFor(player, GOSSIP_ICON_INTERACT_1, "Commit to the Will of the Forsaken", GOSSIP_SENDER_MAIN, 101);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedBack, GOSSIP_SENDER_MAIN, 11);
                 AddGossipItemFor(player, GOSSIP_ICON_TALK, localizedExit, GOSSIP_SENDER_MAIN, 1111);
-                SendGossipMenuFor(player, 988880, creature->GetGUID());
+                SendGossipMenuFor(player, 90000040, creature->GetGUID());
                 break;
 
             case 101: // Undead
