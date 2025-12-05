@@ -40,7 +40,7 @@
 #include "WorldSession.h"
 #include <sstream>
 
-static constexpr int32 GOLD = 10000; // copper per gold
+static constexpr int32 COPPER_PER_GOLD = 10000;
 
 #define LOCALE_RACESWAP_0 "Racial Trait Swap"
 #define LOCALE_RACESWAP_1 "인종 특성 교환"
@@ -801,9 +801,9 @@ public:
 
             case 112: // Blood Elf
                 CloseGossipMenuFor(player);
-                if (!player->HasEnoughMoney(RTS1 * GOLD)) // gold check
+                if (!player->HasEnoughMoney(RTS1 * COPPER_PER_GOLD)) // gold check
                     return true;
-                player->ModifyMoney(-RTS1 * GOLD); // Deducting the money if check passes
+                player->ModifyMoney(-RTS1 * COPPER_PER_GOLD); // Deducting the money if check passes
                 player->CastSpell(player, 47292); // Level up visual effect to let you know the transaction did occure and money is deducted
                 RemoveAllRacials(player); // Remove all racials
                 player->learnSpell(28877, false); // Arcane Affinity
@@ -841,9 +841,9 @@ public:
 
             case 212: // Draenei
                 CloseGossipMenuFor(player);
-                if (!player->HasEnoughMoney(RTS1 * GOLD)) // gold check
+                if (!player->HasEnoughMoney(RTS1 * COPPER_PER_GOLD)) // gold check
                     return true;
-                player->ModifyMoney(-RTS1 * GOLD); // Deducting the money if check passes
+                player->ModifyMoney(-RTS1 * COPPER_PER_GOLD); // Deducting the money if check passes
                 player->CastSpell(player, 47292); // Level up visual effect to let you know the transaction did occure and money is deducted
                 RemoveAllRacials(player); // Remove all racials
                 player->learnSpell(28875, false); // Gem Cutting
@@ -913,9 +913,9 @@ public:
 
             case 31: // Dwarves
                 CloseGossipMenuFor(player);
-                if (!player->HasEnoughMoney(RTS1 * GOLD)) // gold check
+                if (!player->HasEnoughMoney(RTS1 * COPPER_PER_GOLD)) // gold check
                     return true;
-                player->ModifyMoney(-RTS1 * GOLD); // Deducting the money if check passes
+                player->ModifyMoney(-RTS1 * COPPER_PER_GOLD); // Deducting the money if check passes
                 player->CastSpell(player, 47292); // Level up visual effect to let you know the transaction did occure and money is deducted
                 RemoveAllRacials(player); // Remove all racials
                 player->learnSpell(2481, false); // Find Treasure
@@ -934,9 +934,9 @@ public:
 
             case 41: // Gnome
                 CloseGossipMenuFor(player);
-                if (!player->HasEnoughMoney(RTS1 * GOLD)) // gold check
+                if (!player->HasEnoughMoney(RTS1 * COPPER_PER_GOLD)) // gold check
                     return true;
-                player->ModifyMoney(-RTS1 * GOLD); // Deducting the money if check passes
+                player->ModifyMoney(-RTS1 * COPPER_PER_GOLD); // Deducting the money if check passes
                 player->CastSpell(player, 47292); // Level up visual effect to let you know the transaction did occur and money is deducted
                 RemoveAllRacials(player); // Remove all racials
                 player->learnSpell(20592, false); // Arcane Resistance
@@ -954,9 +954,9 @@ public:
 
             case 51: // Human
                 CloseGossipMenuFor(player);
-                if (!player->HasEnoughMoney(RTS1 * GOLD)) // gold check
+                if (!player->HasEnoughMoney(RTS1 * COPPER_PER_GOLD)) // gold check
                     return true;
-                player->ModifyMoney(-RTS1 * GOLD); // Deducting the money if check passes
+                player->ModifyMoney(-RTS1 * COPPER_PER_GOLD); // Deducting the money if check passes
                 player->CastSpell(player, 47292); // Level up visual effect to let you know the transaction did occure and money is deducted
                 RemoveAllRacials(player); // Remove all racials
                 player->learnSpell(20599, false); // Diplomacy
@@ -976,9 +976,9 @@ public:
 
             case 61: // Night Elf
                 CloseGossipMenuFor(player);
-                if (!player->HasEnoughMoney(RTS1 * GOLD)) // gold check
+                if (!player->HasEnoughMoney(RTS1 * COPPER_PER_GOLD)) // gold check
                     return true;
-                player->ModifyMoney(-RTS1 * GOLD); // Deducting the money if check passes
+                player->ModifyMoney(-RTS1 * COPPER_PER_GOLD); // Deducting the money if check passes
                 player->CastSpell(player, 47292); // Level up visual effect to let you know the transaction did occure and money is deducted
                 RemoveAllRacials(player); // Remove all racials
                 player->learnSpell(20583, false); // Nature Resistance
@@ -997,9 +997,9 @@ public:
 
             case 71: // Orc
                 CloseGossipMenuFor(player);
-                if (!player->HasEnoughMoney(RTS1 * GOLD)) // gold check
+                if (!player->HasEnoughMoney(RTS1 * COPPER_PER_GOLD)) // gold check
                     return true;
-                player->ModifyMoney(-RTS1 * GOLD); // Deducting the money if check passes
+                player->ModifyMoney(-RTS1 * COPPER_PER_GOLD); // Deducting the money if check passes
                 player->CastSpell(player, 47292); // Level up visual effect to let you know the transaction did occure and money is deducted
                 RemoveAllRacials(player); // Remove all racials
                 player->learnSpell(20574, false); // Axe Specialization
@@ -1055,9 +1055,9 @@ public:
 
             case 81: // Tauren
                 CloseGossipMenuFor(player);
-                if (!player->HasEnoughMoney(RTS1 * GOLD)) // gold check
+                if (!player->HasEnoughMoney(RTS1 * COPPER_PER_GOLD)) // gold check
                     return true;
-                player->ModifyMoney(-RTS1 * GOLD); // Deducting the money if check passes
+                player->ModifyMoney(-RTS1 * COPPER_PER_GOLD); // Deducting the money if check passes
                 player->CastSpell(player, 47292); // Level up visual effect to let you know the transaction did occure and money is deducted
                 RemoveAllRacials(player); // Remove all racials
                 player->learnSpell(20552, false); // Cultivation
@@ -1075,9 +1075,9 @@ public:
 
             case 91: // Troll
                 CloseGossipMenuFor(player);
-                if (!player->HasEnoughMoney(RTS1 * GOLD)) // gold check
+                if (!player->HasEnoughMoney(RTS1 * COPPER_PER_GOLD)) // gold check
                     return true;
-                player->ModifyMoney(-RTS1 * GOLD); // Deducting the money if check passes
+                player->ModifyMoney(-RTS1 * COPPER_PER_GOLD); // Deducting the money if check passes
                 player->CastSpell(player, 47292); // Level up visual effect to let you know the transaction did occure and money is deducted
                 RemoveAllRacials(player); // Remove all racials
                 player->learnSpell(20557, false); // Beast Slaying
@@ -1097,9 +1097,9 @@ public:
 
             case 101: // Undead
                 CloseGossipMenuFor(player);
-                if (!player->HasEnoughMoney(RTS1 * GOLD)) // gold check
+                if (!player->HasEnoughMoney(RTS1 * COPPER_PER_GOLD)) // gold check
                     return true;
-                player->ModifyMoney(-RTS1 * GOLD); // Deducting the money if check passes
+                player->ModifyMoney(-RTS1 * COPPER_PER_GOLD); // Deducting the money if check passes
                 player->CastSpell(player, 47292); // Level up visual effect to let you know the transaction did occure and money is deducted
                 RemoveAllRacials(player); // Remove all racials
                 player->learnSpell(20577, false); // Cannibalize
