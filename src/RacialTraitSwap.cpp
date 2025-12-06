@@ -38,7 +38,11 @@
 #include "ScriptedCreature.h"
 #include "ScriptedGossip.h"
 #include "WorldSession.h"
+#include "DatabaseEnv.h"
 #include <sstream>
+#include <array>
+#include <unordered_set>
+#include <vector>
 
 static constexpr int32 COPPER_PER_GOLD = 10000;
 
@@ -392,6 +396,134 @@ void RemoveAllRacials(Player* player)
     player->removeSpell(822, SPEC_MASK_ALL, false);   // unlearn Magic Resistance
 }
 
+// All racial spell IDs (used for pruning)
+static constexpr std::array<uint32, 63> ALL_RACIAL_SPELLS = {
+    822, 2481, 5227, 6562, 7744, 20549, 20550, 20551, 20552, 20555, 20557, 20558,
+    20572, 20573, 20574, 20575, 20576, 20577, 20579, 20582, 20583, 20585, 20589,
+    20591, 20592, 20593, 20594, 20595, 20596, 20597, 20598, 20599, 20864, 21009,
+    21563, 25046, 26290, 26297, 28730, 28875, 28877, 28878, 28880, 33697, 33702,
+    50613, 54562, 58943, 58984, 58985, 59221, 59224, 59535, 59536, 59538, 59539,
+    59540, 59541, 59542, 59543, 59544, 59545, 59547, 59548, 59752, 65222
+};
+
+static void BuildRacialsFor(uint8 targetRace, uint8 playerClass, std::vector<uint32>& out)
+{
+    switch (targetRace)
+    {
+        case RACE_BLOODELF:
+            out.push_back(28877);
+            out.push_back(822);
+            if (playerClass == CLASS_DEATH_KNIGHT || playerClass == CLASS_WARRIOR)
+                out.push_back(50613);
+            else if (playerClass == CLASS_ROGUE)
+                out.push_back(25046);
+            else
+                out.push_back(28730);
+            break;
+        case RACE_DRAENEI:
+            out.push_back(28875);
+            if (playerClass == CLASS_DEATH_KNIGHT || playerClass == CLASS_HUNTER || playerClass == CLASS_PALADIN || playerClass == CLASS_ROGUE || playerClass == CLASS_WARRIOR)
+                out.push_back(6562);
+            else
+                out.push_back(28878);
+            switch (playerClass)
+            {
+                case CLASS_PALADIN: out.push_back(59542); out.push_back(59535); break;
+                case CLASS_HUNTER: out.push_back(59543); out.push_back(59536); break;
+                case CLASS_MAGE:
+                case CLASS_WARLOCK: out.push_back(59548); out.push_back(59541); break;
+                case CLASS_PRIEST: out.push_back(59544); out.push_back(59538); break;
+                case CLASS_DRUID:
+                case CLASS_SHAMAN: out.push_back(59547); out.push_back(59540); break;
+                case CLASS_ROGUE:
+                case CLASS_WARRIOR: out.push_back(28880); out.push_back(59221); break;
+                case CLASS_DEATH_KNIGHT: out.push_back(59545); out.push_back(59539); break;
+            }
+            break;
+        case RACE_DWARF:
+            out.insert(out.end(), {2481, 20596, 20595, 59224, 20594});
+            break;
+        case RACE_GNOME:
+            out.insert(out.end(), {20592, 20593, 20589, 20591});
+            break;
+        case RACE_HUMAN:
+            out.insert(out.end(), {20599, 59752, 20864, 58985, 20597, 20598});
+            break;
+        case RACE_NIGHTELF:
+            out.insert(out.end(), {20583, 20582, 58984, 20585, 21009});
+            break;
+        case RACE_ORC:
+        {
+            out.push_back(20574);
+            out.push_back(20573);
+            switch (playerClass)
+            {
+                case CLASS_DEATH_KNIGHT: out.push_back(54562); break;
+                case CLASS_HUNTER: out.push_back(20576); break;
+                case CLASS_SHAMAN: out.push_back(65222); break;
+                case CLASS_WARLOCK: out.push_back(20575); break;
+                default: out.push_back(21563); break;
+            }
+            switch (playerClass)
+            {
+                case CLASS_ROGUE:
+                case CLASS_WARRIOR:
+                case CLASS_HUNTER:
+                case CLASS_DEATH_KNIGHT:
+                    out.push_back(20572); // AP
+                    break;
+                case CLASS_SHAMAN:
+                case CLASS_DRUID:
+                case CLASS_PALADIN:
+                    out.push_back(33697); // AP+SP
+                    break;
+                case CLASS_MAGE:
+                case CLASS_WARLOCK:
+                case CLASS_PRIEST:
+                    out.push_back(33702); // SP
+                    break;
+            }
+            break;
+        }
+        case RACE_TAUREN:
+            out.insert(out.end(), {20552, 20550, 20551, 20549});
+            break;
+        case RACE_TROLL:
+            out.insert(out.end(), {20557, 26297, 26290, 58943, 20555, 20558});
+            break;
+        case RACE_UNDEAD_PLAYER:
+            out.insert(out.end(), {20577, 20579, 5227, 7744});
+            break;
+        default:
+            break;
+    }
+}
+
+static void EnforceChosenRacials(Player* player, uint8 targetRace)
+{
+    std::vector<uint32> allowed;
+    BuildRacialsFor(targetRace, player->getClass(), allowed);
+    std::unordered_set<uint32> allowSet(allowed.begin(), allowed.end());
+
+    for (uint32 spellId : ALL_RACIAL_SPELLS)
+    {
+        if (allowSet.find(spellId) == allowSet.end() && player->HasSpell(spellId))
+            player->removeSpell(spellId, SPEC_MASK_ALL, false);
+    }
+
+    for (uint32 spellId : allowed)
+    {
+        if (!player->HasSpell(spellId))
+            player->learnSpell(spellId, false);
+    }
+}
+
+static void SaveChosenRace(Player* player, uint8 targetRace)
+{
+    CharacterDatabase.Execute("REPLACE INTO custom_racialtraitswap (guid, target_race) VALUES ({}, {})",
+        player->GetGUID().GetCounter(), uint32(targetRace));
+}
+
 class Azerothcore_Race_Trait_announce : public PlayerScript
 {
 public:
@@ -403,6 +535,24 @@ public:
     {
         if (sConfigMgr->GetOption<bool>("Azerothcore.Racial.Trait.Swap.Announce.enable", true))
             ChatHandler(Player->GetSession()).SendSysMessage("This server is running the |cff4CFF00Azerothcore Racial Trait Swap NPC |rmodule.");
+    }
+};
+
+class racial_trait_swap_login : public PlayerScript
+{
+public:
+    racial_trait_swap_login() : PlayerScript("racial_trait_swap_login", { PLAYERHOOK_ON_LOGIN }) { }
+
+    void OnPlayerLogin(Player* player) override
+    {
+        PreparedQueryResult result = CharacterDatabase.Query("SELECT target_race FROM custom_racialtraitswap WHERE guid = {}", player->GetGUID().GetCounter());
+        if (!result)
+            return;
+
+        Field* fields = result->Fetch();
+        uint8 targetRace = fields[0].Get<uint8>();
+        if (targetRace)
+            EnforceChosenRacials(player, targetRace);
     }
 };
 
@@ -830,6 +980,7 @@ public:
                         player->learnSpell(28730, false); // Arcane Torrent (Mana)
                         break;
                 }
+                SaveChosenRace(player, RACE_BLOODELF);
                 break;
 
             case 2: // Draenei Selection
@@ -902,6 +1053,7 @@ public:
                         player->learnSpell(59221, false); // Shadow Resistance
                         break;
                 }
+                SaveChosenRace(player, RACE_DRAENEI);
                 break;
 
             case 3: // Dwarves Selection
@@ -923,6 +1075,7 @@ public:
                 player->learnSpell(20595, false); // Gun Specialization
                 player->learnSpell(59224, false); // Mace Specialization
                 player->learnSpell(20594, false); // Stoneform
+                SaveChosenRace(player, RACE_DWARF);
                 break;
 
             case 4: // Gnome Selection
@@ -943,6 +1096,7 @@ public:
                 player->learnSpell(20593, false); // Engineering Specialization
                 player->learnSpell(20589, false); // Escape Artist
                 player->learnSpell(20591, false); // Expansive Mind
+                SaveChosenRace(player, RACE_GNOME);
                 break;
 
             case 5: // Human Selection
@@ -965,6 +1119,7 @@ public:
                 player->learnSpell(58985, false); // Perception
                 player->learnSpell(20597, false); // Sword Specialization
                 player->learnSpell(20598, false); // The Human Spirit
+                SaveChosenRace(player, RACE_HUMAN);
                 break;
 
             case 6: // Night Elf Selection
@@ -986,6 +1141,7 @@ public:
                 player->learnSpell(58984, false); // Shadowmeld
                 player->learnSpell(20585, false); // Wisp Spirit
                 player->learnSpell(21009, false); // Elusiveness
+                SaveChosenRace(player, RACE_NIGHTELF);
                 break;
 
             case 7: // Orc Selection
@@ -1044,6 +1200,7 @@ public:
                         player->learnSpell(33702, false); // Blood Fury (SP only)
                         break;
                 }
+                SaveChosenRace(player, RACE_ORC);
                 break;
 
             case 8: // Tauren Selection
@@ -1064,6 +1221,7 @@ public:
                 player->learnSpell(20550, false); // Endurance
                 player->learnSpell(20551, false); // Nature Resistance
                 player->learnSpell(20549, false); // Warstomp
+                SaveChosenRace(player, RACE_TAUREN);
                 break;
 
             case 9: // Troll Selection
@@ -1086,6 +1244,7 @@ public:
                 player->learnSpell(58943, false); // Da Voodoo Shuffle
                 player->learnSpell(20555, false); // Regeneration
                 player->learnSpell(20558, false); // Throwing Specialization
+                SaveChosenRace(player, RACE_TROLL);
                 break;
 
             case 10: // Undead Selection
@@ -1106,6 +1265,7 @@ public:
                 player->learnSpell(20579, false); // Shadow Resistance
                 player->learnSpell(5227, false);  // Underwater Breating
                 player->learnSpell(7744, false);  // Will of the Forsaken
+                SaveChosenRace(player, RACE_UNDEAD_PLAYER);
                 break;
 
             default:
@@ -1118,5 +1278,6 @@ public:
 void AddSC_racial_traits_npc()
 {
     new Azerothcore_Race_Trait_announce();
+    new racial_trait_swap_login();
     new npc_race_trait_swap();
 }
