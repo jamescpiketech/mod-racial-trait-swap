@@ -397,7 +397,7 @@ void RemoveAllRacials(Player* player)
 }
 
 // All racial spell IDs (used for pruning)
-static constexpr std::array<uint32, 63> ALL_RACIAL_SPELLS = {
+static constexpr std::array<uint32, 66> ALL_RACIAL_SPELLS = {
     822, 2481, 5227, 6562, 7744, 20549, 20550, 20551, 20552, 20555, 20557, 20558,
     20572, 20573, 20574, 20575, 20576, 20577, 20579, 20582, 20583, 20585, 20589,
     20591, 20592, 20593, 20594, 20595, 20596, 20597, 20598, 20599, 20864, 21009,
@@ -545,7 +545,7 @@ public:
 
     void OnPlayerLogin(Player* player) override
     {
-        PreparedQueryResult result = CharacterDatabase.Query("SELECT target_race FROM custom_racialtraitswap WHERE guid = {}", player->GetGUID().GetCounter());
+        QueryResult result = CharacterDatabase.Query("SELECT target_race FROM custom_racialtraitswap WHERE guid = {}", player->GetGUID().GetCounter());
         if (!result)
             return;
 
