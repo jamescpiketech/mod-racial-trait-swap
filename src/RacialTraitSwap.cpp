@@ -666,6 +666,18 @@ public:
                 localizedGold = LOCALE_GOLD_0;
         }
 
+        // Default fallbacks for race labels (enUS male)
+        localizedBES = LOCALE_BES_9;
+        localizedDRS = LOCALE_DRS_9;
+        localizedDWS = LOCALE_DWS_9;
+        localizedGNS = LOCALE_GNS_9;
+        localizedHUS = LOCALE_HUS_9;
+        localizedNES = LOCALE_NES_9;
+        localizedORC = LOCALE_ORC_9;
+        localizedTUR = LOCALE_TUR_9;
+        localizedTRL = LOCALE_TRL_9;
+        localizedUND = LOCALE_UND_9;
+
         if (player->getGender() == GENDER_FEMALE)
         {
             switch (player->GetSession()->GetSessionDbcLocale())
@@ -893,6 +905,10 @@ public:
                     localizedTRL = LOCALE_TRL_9;
                     localizedUND = LOCALE_UND_9;
             }
+        }
+        else
+        {
+            // Keep the initial defaults for unexpected gender values
         }
 
         std::ostringstream messageBE;
